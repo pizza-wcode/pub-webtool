@@ -17,6 +17,7 @@ const props = defineProps<{
   hidePM?: boolean
   hour24?: boolean
   timestyle?: string
+  gg120?: boolean
 }>()
 const $q = useQuasar();
 
@@ -28,31 +29,38 @@ const formattedStr = computed(() => {
     str = date.formatDate(props.dateval + ' ' + props.timeval, format, props.locale);
     const hour = Number.parseInt(props.timeval.slice(0, 2))
     const isAM = hour < 12;
-    if (!isAM && props.hidePM && props.hour24) {
-      str = str.replace('@', '')
+    if (hour > 12 && props.hidePM && props.hour24) {
+      str = str.replace('@1', '')
+      str = str.replace('@2', '')
     } else if (props.timestyle == 'ahyy') {
       if (4 <= hour && hour <= 9) {
-        str = str.replace('@', '朝')
-      } else if (10 <= hour && hour <= 16) {
-        str = str.replace('@', '昼')
-      } else if (16 <= hour && hour <= 17) {
-        str = str.replace('@', '夕方')
+        str = str.replace('@1', '朝')
+      } else if (10 <= hour && hour <= 15) {
+        str = str.replace('@1', '昼')
+      } else if (16 <= hour && hour <= 18) {
+        str = str.replace('@1', '夕方')
       } else {
-        str = str.replace('@', '夜')
+        str = str.replace('@1', '夜')
       }
+      str = str.replace('@2', '')
     } else if (props.timestyle == 'gg') {
       if (isAM) {
-        str = str.replace('@', '午前')
+        str = str.replace('@1', '午前')
       } else {
-        str = str.replace('@', '午後')
+        str = str.replace('@1', '午後')
       }
+      if (props.gg120) {
+        str = str.replace('午前12', '午前0')
+        str = str.replace('午後12', '午後0')
+      }
+      str = str.replace('@2', '')
     } else {
+      str = str.replace('@1', '')
       if (isAM) {
-        str = str.replace('@', 'AM')
+        str = str.replace('@2', 'AM')
       } else {
-        str = str.replace('@', 'PM')
+        str = str.replace('@2', 'PM')
       }
-
     }
 
   } else {

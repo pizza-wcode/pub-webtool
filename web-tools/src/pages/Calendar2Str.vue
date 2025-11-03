@@ -53,21 +53,24 @@
           </div>
           <div class="col-12">
             <q-checkbox v-model="hour24" label="24時間表記" />
-            <q-checkbox v-if="hour24" v-model="hidePM" label="12時以降は「PM」を省略" />
+            <q-checkbox v-if="hour24" v-model="hidePM" label="13時以降は「PM」を省略" class="q-mx-md" />
+            <q-checkbox v-if="timestyle == 'gg'" v-model="gg120" label="午後12時を午後0時表記" class="q-mx-md" />
           </div>
           <div class="col-12">
-            <format-copy-btn format="M/D(ddd) @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" />
+            <format-copy-btn format="M/D(ddd) @1H:mm@2～" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" :gg120="gg120" />
           </div>
           <div class="col-12">
-            <format-copy-btn format="M.D<ddd> @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :upper="true" :locale="enUS.date" :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" />
-            <format-copy-btn format="M.D<ddd> @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :locale="enUS.date" class="q-mx-md" :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" />
+            <format-copy-btn format="M.D<ddd> @1H:mm@2～" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :upper="true" :locale="enUS.date" :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24"
+              :gg120="gg120" />
+            <format-copy-btn format="M.D<ddd> @1H:mm@2～" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :locale="enUS.date" class="q-mx-md" :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24"
+              :gg120="gg120" />
           </div>
           <div class="col-12">
-            <format-copy-btn format="M月D日dddd @H時m分から" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" />
+            <format-copy-btn format="M月D日dddd @1H時m分@2から" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" :gg120="gg120" />
           </div>
         </div>
       </div>
@@ -85,5 +88,6 @@ const dateval = ref(date.formatDate(new Date(), 'YYYY/MM/DD'))
 const timeval = ref("12:00")
 const hidePM = ref(true)
 const hour24 = ref(true)
+const gg120 = ref(true)
 const timestyle = ref<string>('ahyy')
 </script>
