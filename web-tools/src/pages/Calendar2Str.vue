@@ -46,18 +46,27 @@
       <div class="col-12 col-md">
         <div class="row q-col-gutter-md" v-if="timeval">
           <div class="col-12 text-bold">日付文字をクリップボードにコピー</div>
-
-          <div class="col-12">
-            <format-copy-btn format="M/D(ddd) HH:mm～" :with-time="true" :dateval="dateval" :timeval="timeval" />
+          <div class="col-4">
+            <q-select v-model="timestyle" label="AMPMスタイル"
+              :options="[{ label: '朝昼夕方夜', value: 'ahyy' }, { label: '午前/午後', value: 'gg' }, { label: 'AM/PM', value: 'ampm' }]"
+              :emit-value="true" :map-options="true" />
           </div>
           <div class="col-12">
-            <format-copy-btn format="M.D<ddd> HH:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :upper="true" :locale="enUS.date" />
-            <format-copy-btn format="M.D<ddd> HH:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :locale="enUS.date" class="q-mx-md" />
+            <q-checkbox v-model="hidePM" label="12時以降は「午後」を省略" />
           </div>
           <div class="col-12">
-            <format-copy-btn format="M月D日dddd H時m分から" :with-time="true" :dateval="dateval" :timeval="timeval" />
+            <format-copy-btn format="M/D(ddd) @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :hide-p-m="hidePM" :timestyle="timestyle" />
+          </div>
+          <div class="col-12">
+            <format-copy-btn format="M.D<ddd> @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :upper="true" :locale="enUS.date" :hide-p-m="hidePM" :timestyle="timestyle" />
+            <format-copy-btn format="M.D<ddd> @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :locale="enUS.date" class="q-mx-md" :hide-p-m="hidePM" :timestyle="timestyle" />
+          </div>
+          <div class="col-12">
+            <format-copy-btn format="M月D日dddd @H時m分から" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :hide-p-m="hidePM" :timestyle="timestyle" />
           </div>
         </div>
       </div>
@@ -73,5 +82,6 @@ import FormatCopyBtn from 'src/components/FormatCopyBtn.vue';
 
 const dateval = ref(date.formatDate(new Date(), 'YYYY/MM/DD'))
 const timeval = ref(null)
-
+const hidePM = ref(true)
+const timestyle = ref<string>('ahyy')
 </script>
