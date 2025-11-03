@@ -40,19 +40,19 @@
         <br />
         <span style="color: grey;">
           時、分の順番に数字をクリックして選択<br />
-          分を選択するタイミングで時を変更したい時は<br />左側の青いパネルで色が薄くなっている時の数字をクリック</span>
+          分を選択するタイミングで時を変更したい時は<br />左側の青いパネルで色が薄くなっている数字をクリック</span>
 
       </div>
       <div class="col-12 col-md">
         <div class="row q-col-gutter-md" v-if="timeval">
           <div class="col-12 text-bold">日付文字をクリップボードにコピー</div>
           <div class="col-4">
-            <q-select v-model="timestyle" label="AMPMスタイル"
-              :options="[{ label: '朝昼夕方夜', value: 'ahyy' }, { label: '午前/午後', value: 'gg' }, { label: 'AM/PM', value: 'ampm' }]"
+            <q-select v-model="timestyle" label="AM/PM表記方法"
+              :options="[{ label: '朝,昼,夕方,夜', value: 'ahyy' }, { label: '午前/午後', value: 'gg' }, { label: 'AM/PM', value: 'ampm' }]"
               :emit-value="true" :map-options="true" />
           </div>
           <div class="col-12">
-            <q-checkbox v-model="hidePM" label="12時以降は「午後」を省略" />
+            <q-checkbox v-model="hidePM" label="12時以降は「PM」を省略" />
           </div>
           <div class="col-12">
             <format-copy-btn format="M/D(ddd) @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
@@ -81,7 +81,7 @@ import enUS from 'quasar/lang/en-US.js'
 import FormatCopyBtn from 'src/components/FormatCopyBtn.vue';
 
 const dateval = ref(date.formatDate(new Date(), 'YYYY/MM/DD'))
-const timeval = ref(null)
+const timeval = ref("12:00")
 const hidePM = ref(true)
 const timestyle = ref<string>('ahyy')
 </script>
