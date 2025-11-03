@@ -52,21 +52,22 @@
               :emit-value="true" :map-options="true" />
           </div>
           <div class="col-12">
-            <q-checkbox v-model="hidePM" label="12時以降は「PM」を省略" />
+            <q-checkbox v-model="hour24" label="24時間表記" />
+            <q-checkbox v-if="hour24" v-model="hidePM" label="12時以降は「PM」を省略" />
           </div>
           <div class="col-12">
             <format-copy-btn format="M/D(ddd) @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :hide-p-m="hidePM" :timestyle="timestyle" />
+              :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" />
           </div>
           <div class="col-12">
             <format-copy-btn format="M.D<ddd> @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :upper="true" :locale="enUS.date" :hide-p-m="hidePM" :timestyle="timestyle" />
+              :upper="true" :locale="enUS.date" :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" />
             <format-copy-btn format="M.D<ddd> @H:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :locale="enUS.date" class="q-mx-md" :hide-p-m="hidePM" :timestyle="timestyle" />
+              :locale="enUS.date" class="q-mx-md" :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" />
           </div>
           <div class="col-12">
             <format-copy-btn format="M月D日dddd @H時m分から" :with-time="true" :dateval="dateval" :timeval="timeval"
-              :hide-p-m="hidePM" :timestyle="timestyle" />
+              :hide-p-m="hidePM" :timestyle="timestyle" :hour24="hour24" />
           </div>
         </div>
       </div>
@@ -83,5 +84,6 @@ import FormatCopyBtn from 'src/components/FormatCopyBtn.vue';
 const dateval = ref(date.formatDate(new Date(), 'YYYY/MM/DD'))
 const timeval = ref("12:00")
 const hidePM = ref(true)
+const hour24 = ref(true)
 const timestyle = ref<string>('ahyy')
 </script>

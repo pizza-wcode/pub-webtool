@@ -15,17 +15,20 @@ const props = defineProps<{
   upper?: boolean
   asahiruAM?: boolean
   hidePM?: boolean
+  hour24?: boolean
   timestyle?: string
 }>()
 const $q = useQuasar();
 
 const formattedStr = computed(() => {
+
+  const format = (props.hour24 ? props.format : props.format.replace('H', 'h'))
   let str = ''
   if (props.withTime && props.timeval) {
-    str = date.formatDate(props.dateval + ' ' + props.timeval, props.format, props.locale);
+    str = date.formatDate(props.dateval + ' ' + props.timeval, format, props.locale);
     const hour = Number.parseInt(props.timeval.slice(0, 2))
     const isAM = hour < 12;
-    if (!isAM && props.hidePM) {
+    if (!isAM && props.hidePM && props.hour24) {
       str = str.replace('@', '')
     } else if (props.timestyle == 'ahyy') {
       if (4 <= hour && hour <= 9) {
@@ -53,7 +56,7 @@ const formattedStr = computed(() => {
     }
 
   } else {
-    str = date.formatDate(props.dateval ?? '', props.format, props.locale);
+    str = date.formatDate(props.dateval ?? '', format, props.locale);
   }
   if (props.upper) {
     return str.toUpperCase();
