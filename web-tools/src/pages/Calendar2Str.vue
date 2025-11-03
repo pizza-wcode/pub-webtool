@@ -14,13 +14,19 @@
       <div class="col-12 col-md">
         <div class="row q-col-gutter-md">
           <div class="col-12 text-bold">日付文字をクリップボードにコピー</div>
-          <div class="col-12"> <q-btn color="primary" icon="content_copy" @click="() => copyClipDate('M/D(ddd)')">{{
-            date.formatDate(dateval, 'M/D(ddd)') }}</q-btn></div>
-          <div class="col-12"> <q-btn color="primary" icon="content_copy"
-              @click="() => copyClipDate('M.D<ddd>', enUS.date)">{{
-                date.formatDate(dateval, 'M.D<ddd>', enUS.date) }}</q-btn></div>
-          <div class="col-12"> <q-btn color="primary" icon="content_copy" @click="() => copyClipDate('M月D日dddd')">{{
-            date.formatDate(dateval, 'M月D日dddd') }}</q-btn></div>
+
+          <div class="col-12"> <format-copy-btn format="M/D(ddd)" :with-time="false" :dateval="dateval"
+              :timeval="timeval" />
+          </div>
+          <div class="col-12">
+            <format-copy-btn format="M.D<ddd>" :with-time="false" :dateval="dateval" :timeval="timeval"
+              :locale="enUS.date" :upper="true" />
+            <format-copy-btn format="M.D<ddd>" :with-time="false" :dateval="dateval" :timeval="timeval"
+              :locale="enUS.date" class="q-mx-md" />
+          </div>
+          <div class="col-12">
+            <format-copy-btn format="M月D日dddd" :with-time="false" :dateval="dateval" :timeval="timeval" />
+          </div>
         </div>
       </div>
     </div>
@@ -40,15 +46,19 @@
       <div class="col-12 col-md">
         <div class="row q-col-gutter-md" v-if="timeval">
           <div class="col-12 text-bold">日付文字をクリップボードにコピー</div>
-          <div class="col-12"> <q-btn color="primary" icon="content_copy"
-              @click="() => copyToClipboard(date.formatDate(dateval + ' ' + timeval, 'M/D(ddd) HH:mm～'))">{{
-                date.formatDate(dateval + ' ' + timeval, 'M/D(ddd) HH:mm～') }}</q-btn></div>
-          <div class="col-12"> <q-btn color="primary" icon="content_copy"
-              @click="() => copyToClipboard(date.formatDate(dateval + ' ' + timeval, 'M.D<ddd> HH:mm～', enUS.date))">{{
-                date.formatDate(dateval + ' ' + timeval, 'M.D<ddd> HH:mm～', enUS.date) }}</q-btn></div>
-          <div class="col-12"> <q-btn color="primary" icon="content_copy"
-              @click="() => copyClipDateTime('M月D日dddd H時m分から')">{{
-                date.formatDate(dateval + ' ' + timeval, 'M月D日dddd H時m分から') }}</q-btn></div>
+
+          <div class="col-12">
+            <format-copy-btn format="M/D(ddd) HH:mm～" :with-time="true" :dateval="dateval" :timeval="timeval" />
+          </div>
+          <div class="col-12">
+            <format-copy-btn format="M.D<ddd> HH:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :upper="true" :locale="enUS.date" />
+            <format-copy-btn format="M.D<ddd> HH:mm～" :with-time="true" :dateval="dateval" :timeval="timeval"
+              :locale="enUS.date" class="q-mx-md" />
+          </div>
+          <div class="col-12">
+            <format-copy-btn format="M月D日dddd H時m分から" :with-time="true" :dateval="dateval" :timeval="timeval" />
+          </div>
         </div>
       </div>
     </div>
@@ -56,22 +66,12 @@
 </template>
 
 <script setup lang="ts">
-import { copyToClipboard, type DateLocale, useQuasar, date } from 'quasar';
+import { date } from 'quasar';
 import { ref } from 'vue';
 import enUS from 'quasar/lang/en-US.js'
+import FormatCopyBtn from 'src/components/FormatCopyBtn.vue';
 
 const dateval = ref(date.formatDate(new Date(), 'YYYY/MM/DD'))
 const timeval = ref(null)
-const $q = useQuasar();
 
-const copyClipDate = async (format: string, locale?: DateLocale) => {
-  const str = date.formatDate(dateval.value, format, locale)
-  await copyToClipboard(str)
-  $q.notify({ message: "クリップボードへコピーしました: " + str, color: "positive" });
-}
-const copyClipDateTime = async (format: string, locale?: DateLocale) => {
-  const str = date.formatDate(dateval.value + ' ' + timeval.value, format, locale);
-  await copyToClipboard(str);
-  $q.notify({ message: "クリップボードへコピーしました: " + str, color: "positive" })
-}
 </script>
