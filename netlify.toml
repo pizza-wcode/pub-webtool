@@ -1,0 +1,12 @@
+[build]
+  command = "npx quasar build"
+  publish = "dist/spa"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Vue Router の history モード用：リロードで 404 を避ける
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
